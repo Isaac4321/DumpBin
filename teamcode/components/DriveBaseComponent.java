@@ -16,7 +16,7 @@ public class DriveBaseComponent extends ComponentBase{
     private DcMotor rearLeftMotor;
     private DcMotor rearRightMotor;
 
-    private Gamepad controller;
+    private Gamepad controller1;
 
     public DriveBaseComponent(Robot robot) {
         super(robot);
@@ -30,7 +30,7 @@ public class DriveBaseComponent extends ComponentBase{
 
     @Override
     public void init() {
-        controller = robot.controller1();
+        controller1 = robot.controller1();
 
         frontLeftMotor = robot.hardwareMap().get(DcMotor.class, "frontLeft");
         frontRightMotor = robot.hardwareMap().get(DcMotor.class, "frontRight");
@@ -44,9 +44,9 @@ public class DriveBaseComponent extends ComponentBase{
     }
 
     private void drive() {
-        double drive = -controller.left_stick_y;
-        double turn = controller.left_stick_x;
-        double rx = controller.right_stick_x;
+        double drive = -controller1.left_stick_y;
+        double turn = controller1.left_stick_x;
+        double rx = controller1.right_stick_x;
 
 
 
