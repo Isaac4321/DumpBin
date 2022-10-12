@@ -84,7 +84,14 @@ public class MainOpMode extends OpMode
         robot.addComponent(new SoundComponent(robot));
         robot.addComponent(new ClawComponent(robot));
         robot.addComponent(new LifterComponent(robot));
-        
+        robot.addcomponent(() -> {
+            @Override
+            public void init() {
+            }
+            
+            @Override void update() {
+            }
+        }); 
     }
 
     /**
