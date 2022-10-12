@@ -20,16 +20,17 @@ public class SoundComponent extends ComponentBase{
 
     public SoundComponent(Robot robot) {
         super(robot);
+        init();
     }
 
     @Override
     public void update() {
-        if (controller1.a && !soundPlaying) {
+        if (controller1.dpad_up && !soundPlaying) {
             playSound(file);
         }
     }
 
-    @Override
+
     public void init() {
         controller1 = robot.controller1();
         context = robot.hardwareMap().appContext;

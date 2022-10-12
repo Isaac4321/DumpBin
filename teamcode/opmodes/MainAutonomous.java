@@ -29,90 +29,56 @@
 
 package org.firstinspires.ftc.teamcode.opmodes;
 
-import android.os.Build;
-
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.Robot;
-import org.firstinspires.ftc.teamcode.components.ClawComponent;
-import org.firstinspires.ftc.teamcode.components.DriveBaseComponent;
-import org.firstinspires.ftc.teamcode.components.LifterComponent;
-import org.firstinspires.ftc.teamcode.components.SoundComponent;
+import org.firstinspires.ftc.teamcode.autonomous.seq.Sequence;
+import org.firstinspires.ftc.teamcode.autonomous.seq.SequenceManager;
+
+import java.util.Arrays;
 
 /**
  * The main Op-mode we use for operating the robot, this is also where we control
  * the creation of components @see{Robot#addComponent}, this is done during initialization.
  *
  */
-@TeleOp(name="Main Iterative OpMode", group="Iterative Opmode")
-public class MainOpMode extends OpMode
+@Autonomous(name="Main Autonomous OpMode", group="Iterative Opmode")
+public class MainAutonomous extends OpMode
 {
-//    TODO: Create a LED manager that allows for full control of LEDs
-//    TODO: Create a sound manager that allows for playing sound during the op-mode
-//    TODO: Create a readme.md which explains how to:
-//         - Create a component
-//         - Add a component
-//         - Use the sound manager
-//         - Use the LED manager
-//         - Printing to the telemetry console
-//    TODO: Implement a state machine for each sequence i.e
-//          waits for the previous command to have been ran
-//          so we can track each state of the sequence commands
 
     private Robot robot;
 
-    /**
-     * This function is called when the INIT button is clicked on the driver station (NOT RUNNING).
-     * Treat this method similarly to a class constructor as it is only ran once during initialization,
-     * initialize variables here and add components to the robot
-     *
-     * DRIVE TEAM:
-     * If you are having issues with a component you can disable the component here.
-     * For example, if the drive-base was constantly driving (without touching joystick) comment it out like shown,
-     * this is the same for all other components.
-     *
-     * //robot.addComponent(new DriveBaseComponent(robot));
-     *
-     */
+    private SequenceManager sequenceManager;
     @Override
     public void init() {
         robot = new Robot(this);
 
-        robot.addComponent(new DriveBaseComponent(robot, false));
-        robot.addComponent(new SoundComponent(robot));
-        robot.addComponent(new ClawComponent(robot));
-        robot.addComponent(new LifterComponent(robot));
+
+        sequenceManager = new SequenceManager(robot);
+        Sequence seq1 = new Sequence(sequenceManager);
+
+        //Drive forwards 5 cms with a timeout of 5 seconds
+        seq1.addCommand("drive", "5,2.0");
+        sequenceManager.addSequences(Arrays.asList(seq1));
     }
 
-    /**
-     * This function is called when the robot has been initialized and you click the START button.
-     * This is where you can display initial values once i.e for debugging and testing.
-     */
+
     @Override
     public void start() {
+        sequenceManager.run();
         telemetry.addData("Current OpMode Started.", null);
         telemetry.update();
 
     }
 
-    /**
-     * This function is continuously ran while the robot is running.
-     * Calls the @link{ComponentBase#update()} method for all the components
-     */
     @Override
     public void loop() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            robot.components().forEach(component -> component.update());
-        }
         telemetry.addData("Current OpMode Updating.", null);
         telemetry.update();
     }
 
-    /**
-     * This function is called once when the STOP button has been pressed.
-     */
+
     @Override
     public void stop() {
         telemetry.addData("Current OpMode Stopped.", null);

@@ -25,11 +25,6 @@ public final class Robot {
 
     public void addComponent(Component component) {
         this.components.add(component);
-        initComponent(component);
-    }
-
-    private void initComponent(Component component) {
-        component.init();
     }
 
     public ArrayList<Component> components() {
